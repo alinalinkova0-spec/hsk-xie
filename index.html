@@ -116,202 +116,109 @@
 <script>
 const WORDS = {
   1: [
-    {h:'好', p:'hǎo', m:'хороший', en:'good; well'}, {h:'人', p:'rén', m:'человек', en:'man; person'},
-    {h:'大', p:'dà', m:'большой', en:'big; large'}, {h:'小', p:'xiǎo', m:'маленький', en:'small; little'},
-    {h:'我', p:'wǒ', m:'я', en:'I; me'}, {h:'你', p:'nǐ', m:'ты', en:'you'},
-    {h:'他', p:'tā', m:'он', en:'he; him'}, {h:'她', p:'tā', m:'она', en:'she; her'},
-    {h:'是', p:'shì', m:'быть', en:'is; are; am'}, {h:'不', p:'bù', m:'не', en:'no; not'},
-    {h:'在', p:'zài', m:'находиться', en:'at; in; on'}, {h:'有', p:'yǒu', m:'иметь', en:'to have'},
-    {h:'这', p:'zhè', m:'этот', en:'this'}, {h:'那', p:'nà', m:'тот', en:'that'},
-    {h:'说', p:'shuō', m:'говорить', en:'to say'}, {h:'看', p:'kàn', m:'смотреть', en:'to see'},
-    {h:'吃', p:'chī', m:'есть', en:'to eat'}, {h:'喝', p:'hē', m:'пить', en:'to drink'},
-    {h:'水', p:'shuǐ', m:'вода', en:'water'}, {h:'天', p:'tiān', m:'день', en:'day'}
+    {h:'爱', p:'ài', m:'любить', en:'to love'}, {h:'八', p:'bā', m:'восемь', en:'eight'}, {h:'爸爸', p:'bàba', m:'папа', en:'father'},
+    {h:'杯子', p:'bēizi', m:'чашка', en:'cup'}, {h:'北京', p:'Běijīng', m:'Пекин', en:'Beijing'}, {h:'本', p:'běn', m:'счетное слово', en:'measure word'},
+    {h:'不客气', p:'bú kèqi', m:'не за что', en:'you are welcome'}, {h:'菜', p:'cài', m:'еда', en:'dish'}, {h:'茶', p:'chá', m:'чай', en:'tea'},
+    {h:'吃', p:'chī', m:'есть', en:'to eat'}, {h:'出租车', p:'chūzūchē', m:'такси', en:'taxi'}, {h:'打电话', p:'dǎ diànhuà', m:'звонить', en:'call'},
+    {h:'大', p:'dà', m:'большой', en:'big'}, {h:'的', p:'de', m:'притяж. частица', en:'possessive particle'}, {h:'点', p:'diǎn', m:'час', en:'o\'clock'},
+    {h:'电脑', p:'diànnǎo', m:'компьютер', en:'computer'}, {h:'电视', p:'diànshì', m:'телевизор', en:'TV'}, {h:'电影', p:'diànyǐng', m:'кино', en:'movie'},
+    {h:'东西', p:'dōngxi', m:'вещи', en:'things'}, {h:'都', p:'dōu', m:'все', en:'all'}, {h:'读', p:'dú', m:'читать', en:'to read'},
+    {h:'对不起', p:'duìbuqǐ', m:'извините', en:'sorry'}, {h:'多', p:'duō', m:'много', en:'many'}, {h:'多少', p:'duōshao', m:'сколько', en:'how many'},
+    {h:'儿子', p:'érzi', m:'сын', en:'son'}, {h:'二', p:'èr', m:'два', en:'two'}, {h:'饭馆', p:'fànguǎn', m:'ресторан', en:'restaurant'},
+    {h:'飞机', p:'fēijī', m:'самолет', en:'airplane'}, {h:'分钟', p:'fēnzhōng', m:'минута', en:'minute'}, {h:'高兴', p:'gāoxìng', m:'радостный', en:'happy'},
+    {h:'个', p:'gè', m:'штука', en:'measure word'}, {h:'工作', p:'gōngzuò', m:'работа', en:'work'}, {h:'狗', p:'gǒu', m:'собака', en:'dog'},
+    {h:'汉语', p:'Hànyǔ', m:'кит. язык', en:'Chinese'}, {h:'好', p:'hǎo', m:'хороший', en:'good'}, {h:'号', p:'hào', m:'число', en:'number'},
+    {h:'喝', p:'hē', m:'пить', en:'to drink'}, {h:'和', p:'hé', m:'и', en:'and'}, {h:'很', p:'hěn', m:'очень', en:'very'},
+    {h:'后面', p:'hòumiàn', m:'сзади', en:'behind'}, {h:'回', p:'huí', m:'возвращаться', en:'to return'}, {h:'会', p:'huì', m:'уметь', en:'can'},
+    {h:'火车站', p:'huǒchēzhàn', m:'вокзал', en:'train station'}, {h:'几', p:'jǐ', m:'сколько', en:'how many'}, {h:'家', p:'jiā', m:'дом', en:'home'},
+    {h:'叫', p:'jiào', m:'звать', en:'to be called'}, {h:'今天', p:'jīntiān', m:'сегодня', en:'today'}, {h:'九', p:'jiǔ', m:'девять', en:'nine'},
+    {h:'开', p:'kāi', m:'открывать', en:'to open'}, {h:'看', p:'kàn', m:'смотреть', en:'to look'}, {h:'看见', p:'kànjiàn', m:'увидеть', en:'to see'},
+    {h:'块', p:'kuài', m:'юань', en:'yuan'}, {h:'来', p:'lái', m:'приходить', en:'to come'}, {h:'老师', p:'lǎoshī', m:'учитель', en:'teacher'},
+    {h:'了', p:'le', m:'частица', en:'particle'}, {h:'冷', p:'lěng', m:'холодный', en:'cold'}, {h:'里', p:'lǐ', m:'внутри', en:'inside'},
+    {h:'六', p:'liù', m:'шесть', en:'six'}, {h:'妈妈', p:'māma', m:'мама', en:'mother'}, {h:'吗', p:'ma', m:'вопрос. частица', en:'question particle'},
+    {h:'买', p:'mǎi', m:'покупать', en:'to buy'}, {h:'猫', p:'māo', m:'кошка', en:'cat'}, {h:'没关系', p:'méi guānxi', m:'ничего страшного', en:'it doesn\'t matter'},
+    {h:'没有', p:'méiyǒu', m:'нет', en:'haven\'t'}, {h:'米饭', p:'mǐfàn', m:'рис', en:'rice'}, {h:'名字', p:'míngzi', m:'имя', en:'name'},
+    {h:'明天', p:'míngtiān', m:'завтра', en:'tomorrow'}, {h:'哪', p:'nǎ', m:'какой', en:'which'}, {h:'哪儿', p:'nǎr', m:'где', en:'where'},
+    {h:'那', p:'nà', m:'тот', en:'that'}, {h:'呢', p:'ne', m:'частица', en:'particle'}, {h:'能', p:'néng', m:'мочь', en:'can'},
+    {h:'你', p:'nǐ', m:'ты', en:'you'}, {h:'年', p:'nián', m:'год', en:'year'}, {h:'女儿', p:'nǚ\'ér', m:'дочь', en:'daughter'},
+    {h:'朋友', p:'péngyou', m:'друг', en:'friend'}, {h:'漂亮', p:'piàoliang', m:'красивый', en:'beautiful'}, {h:'苹果', p:'píngguǒ', m:'яблоко', en:'apple'},
+    {h:'七', p:'qī', m:'семь', en:'seven'}, {h:'前面', p:'qiánmiàn', m:'впереди', en:'in front'}, {h:'钱', p:'qián', m:'деньги', en:'money'},
+    {h:'请', p:'qǐng', m:'пожалуйста', en:'please'}, {h:'去', p:'qù', m:'идти', en:'to go'}, {h:'热', p:'rè', m:'жаркий', en:'hot'},
+    {h:'人', p:'rén', m:'человек', en:'person'}, {h:'认识', p:'rènshi', m:'знать', en:'to know'}, {h:'三', p:'sān', m:'три', en:'three'},
+    {h:'商店', p:'shāngdiàn', m:'магазин', en:'store'}, {h:'上', p:'shàng', m:'верх', en:'up'}, {h:'上午', p:'shàngwǔ', m:'утро', en:'morning'},
+    {h:'少', p:'shǎo', m:'мало', en:'few'}, {h:'谁', p:'shéi', m:'кто', en:'who'}, {h:'什么', p:'shénme', m:'что', en:'what'},
+    {h:'十', p:'shí', m:'десять', en:'ten'}, {h:'时候', p:'shíhou', m:'время', en:'time'}, {h:'是', p:'shì', m:'быть', en:'to be'},
+    {h:'书', p:'shū', m:'книга', en:'book'}, {h:'水', p:'shuǐ', m:'вода', en:'water'}, {h:'水果', p:'shuǐguǒ', m:'фрукты', en:'fruit'},
+    {h:'睡觉', p:'shuìjiào', m:'спать', en:'to sleep'}, {h:'说', p:'shuō', m:'говорить', en:'to speak'}, {h:'四', p:'sì', m:'четыре', en:'four'},
+    {h:'岁', p:'suì', m:'лет', en:'years old'}, {h:'他', p:'tā', m:'он', en:'he'}, {h:'她', p:'tā', m:'она', en:'she'},
+    {h:'太', p:'tài', m:'слишком', en:'too'}, {h:'天气', p:'tiānqì', m:'погода', en:'weather'}, {h:'听', p:'tīng', m:'слушать', en:'to listen'},
+    {h:'同学', p:'tóngxué', m:'одноклассник', en:'classmate'}, {h:'喂', p:'wèi', m:'алло', en:'hello'}, {h:'我', p:'wǒ', m:'я', en:'I'},
+    {h:'我们', p:'wǒmen', m:'мы', en:'we'}, {h:'五', p:'wǔ', m:'пять', en:'five'}, {h:'喜欢', p:'xǐhuan', m:'нравиться', en:'to like'},
+    {h:'下', p:'xià', m:'низ', en:'down'}, {h:'下午', p:'xiàwǔ', m:'день', en:'afternoon'}, {h:'下雨', p:'xiàyǔ', m:'идет дождь', en:'to rain'},
+    {h:'先生', p:'xiānsheng', m:'господин', en:'mister'}, {h:'现在', p:'xiànzài', m:'сейчас', en:'now'}, {h:'想', p:'xiǎng', m:'хотеть', en:'to want'},
+    {h:'小', p:'xiǎo', m:'маленький', en:'small'}, {h:'小姐', p:'xiǎojiě', m:'мисс', en:'miss'}, {h:'些', p:'xiē', m:'немного', en:'some'},
+    {h:'写', p:'xiě', m:'писать', en:'to write'}, {h:'谢', p:'xiè', m:'спасибо', en:'thanks'}, {h:'星期', p:'xīngqī', m:'неделя', en:'week'},
+    {h:'学生', p:'xuésheng', m:'студент', en:'student'}, {h:'学习', p:'xuéxí', m:'учиться', en:'to study'}, {h:'学校', p:'xuéxiào', m:'школа', en:'school'},
+    {h:'一', p:'yī', m:'один', en:'one'}, {h:'衣服', p:'yīfu', m:'одежда', en:'clothes'}, {h:'医生', p:'yīshēng', m:'врач', en:'doctor'},
+    {h:'医院', p:'yīyuàn', m:'больница', en:'hospital'}, {h:'椅子', p:'yǐzi', m:'стул', en:'chair'}, {h:'有', p:'yǒu', m:'иметь', en:'to have'},
+    {h:'月', p:'yuè', m:'месяц', en:'month'}, {h:'再见', p:'zàijiàn', m:'до свидания', en:'goodbye'}, {h:'在', p:'zài', m:'в', en:'at'},
+    {h:'怎么', p:'zěnme', m:'как', en:'how'}, {h:'怎么样', p:'zěnmeyàng', m:'как насчет', en:'how about'}, {h:'这', p:'zhè', m:'этот', en:'this'},
+    {h:'中国', p:'Zhōngguó', m:'Китай', en:'China'}, {h:'中午', p:'zhōngwǔ', m:'полдень', en:'noon'}, {h:'住', p:'zhù', m:'жить', en:'to live'},
+    {h:'桌子', p:'zhuōzi', m:'стол', en:'table'}, {h:'字', p:'zì', m:'иероглиф', en:'character'}, {h:'昨天', p:'zuótiān', m:'вчера', en:'yesterday'},
+    {h:'坐', p:'zuò', m:'сидеть', en:'to sit'}, {h:'做', p:'zuò', m:'делать', en:'to do'}
   ],
   2: [
-    {h:'白', p:'bái', m:'белый', en:'white'}, {h:'百', p:'bǎi', m:'сто', en:'hundred'},
-    {h:'帮', p:'bāng', m:'помогать', en:'to help'}, {h:'比', p:'bǐ', m:'сравнивать', en:'to compare'},
-    {h:'病', p:'bìng', m:'болезнь', en:'illness'}, {h:'茶', p:'chá', m:'чай', en:'tea'},
-    {h:'车', p:'chē', m:'машина', en:'car'}, {h:'出', p:'chū', m:'выходить', en:'to go out'},
-    {h:'错', p:'cuò', m:'ошибка', en:'wrong'}, {h:'打', p:'dǎ', m:'бить', en:'to hit'},
-    {h:'懂', p:'dǒng', m:'понимать', en:'to understand'}, {h:'读', p:'dú', m:'читать', en:'to read'},
-    {h:'对', p:'duì', m:'правильный', en:'correct'}, {h:'高', p:'gāo', m:'высокий', en:'tall'},
-    {h:'家', p:'jiā', m:'дом', en:'home'}, {h:'见', p:'jiàn', m:'видеть', en:'to see'}
+    {h:'吧', p:'ba', m:'частица', en:'particle'}, {h:'白', p:'bái', m:'белый', en:'white'}, {h:'百', p:'bǎi', m:'сто', en:'hundred'},
+    {h:'帮助', p:'bāngzhù', m:'помогать', en:'to help'}, {h:'报纸', p:'bàozhǐ', m:'газета', en:'newspaper'}, {h:'比', p:'bǐ', m:'сравнивать', en:'to compare'},
+    {h:'别', p:'bié', m:'не', en:'don\'t'}, {h:'宾馆', p:'bīnguǎn', m:'гостиница', en:'hotel'}, {h:'长', p:'cháng', m:'длинный', en:'long'},
+    {h:'唱歌', p:'chànggē', m:'петь', en:'to sing'}, {h:'出', p:'chū', m:'выходить', en:'to go out'}, {h:'穿', p:'chuān', m:'носить', en:'to wear'},
+    {h:'船', p:'chuán', m:'лодка', en:'boat'}, {h:'次', p:'cì', m:'раз', en:'time'}, {h:'从', p:'cóng', m:'из', en:'from'},
+    {h:'错', p:'cuò', m:'ошибка', en:'wrong'}, {h:'打篮球', p:'dǎ lánqiú', m:'играть в баскетбол', en:'play basketball'}, {h:'大家', p:'dàjiā', m:'все', en:'everyone'},
+    {h:'到', p:'dào', m:'достигать', en:'to arrive'}, {h:'得', p:'de', m:'частица', en:'particle'}, {h:'等', p:'děng', m:'ждать', en:'to wait'},
+    {h:'弟弟', p:'dìdi', m:'младший брат', en:'younger brother'}, {h:'第一', p:'dì yī', m:'первый', en:'first'}, {h:'懂', p:'dǒng', m:'понимать', en:'to understand'},
+    {h:'对', p:'duì', m:'правильный', en:'correct'}, {h:'房间', p:'fángjiān', m:'комната', en:'room'}, {h:'非常', p:'fēicháng', m:'очень', en:'very'},
+    {h:'服务员', p:'fúwùyuán', m:'официант', en:'waiter'}, {h:'高', p:'gāo', m:'высокий', en:'tall'}, {h:'告诉', p:'gàosu', m:'говорить', en:'to tell'},
+    {h:'哥哥', p:'gēge', m:'старший брат', en:'older brother'}, {h:'给', p:'gěi', m:'давать', en:'to give'}, {h:'公共汽车', p:'gōnggòng qìchē', m:'автобус', en:'bus'},
+    {h:'公司', p:'gōngsī', m:'компания', en:'company'}, {h:'贵', p:'guì', m:'дорогой', en:'expensive'}, {h:'过', p:'guò', m:'проходить', en:'to pass'},
+    {h:'还', p:'hái', m:'еще', en:'still'}, {h:'孩子', p:'háizi', m:'ребенок', en:'child'}, {h:'好吃', p:'hǎochī', m:'вкусный', en:'delicious'},
+    {h:'黑', p:'hēi', m:'черный', en:'black'}, {h:'红', p:'hóng', m:'красный', en:'red'}, {h:'欢迎', p:'huānyíng', m:'добро пожаловать', en:'welcome'},
+    {h:'回答', p:'huídá', m:'отвечать', en:'to answer'}, {h:'机场', p:'jīchǎng', m:'аэропорт', en:'airport'}, {h:'鸡蛋', p:'jīdàn', m:'яйцо', en:'egg'},
+    {h:'件', p:'jiàn', m:'вещь', en:'item'}, {h:'教室', p:'jiàoshì', m:'класс', en:'classroom'}, {h:'姐姐', p:'jiějie', m:'старшая сестра', en:'older sister'},
+    {h:'介绍', p:'jièshào', m:'представлять', en:'to introduce'}, {h:'近', p:'jìn', m:'близкий', en:'near'}, {h:'就', p:'jiù', m:'сразу', en:'then'},
+    {h:'觉得', p:'juéde', m:'чувствовать', en:'to feel'}, {h:'咖啡', p:'kāfēi', m:'кофе', en:'coffee'}, {h:'开始', p:'kāishǐ', m:'начинать', en:'to start'},
+    {h:'考试', p:'kǎoshì', m:'экзамен', en:'exam'}, {h:'可能', p:'kěnéng', m:'возможно', en:'maybe'}, {h:'可以', p:'kěyǐ', m:'можно', en:'can'},
+    {h:'课', p:'kè', m:'урок', en:'lesson'}, {h:'快', p:'kuài', m:'быстрый', en:'fast'}, {h:'快乐', p:'kuàilè', m:'счастливый', en:'happy'},
+    {h:'累', p:'lèi', m:'уставший', en:'tired'}, {h:'离', p:'lí', m:'от', en:'from'}, {h:'两', p:'liǎng', m:'два', en:'two'},
+    {h:'零', p:'líng', m:'ноль', en:'zero'}, {h:'路', p:'lù', m:'дорога', en:'road'}, {h:'旅游', p:'lǚyóu', m:'путешествие', en:'travel'},
+    {h:'卖', p:'mài', m:'продавать', en:'to sell'}, {h:'慢', p:'màn', m:'медленный', en:'slow'}, {h:'忙', p:'máng', m:'занятый', en:'busy'},
+    {h:'每', p:'měi', m:'каждый', en:'every'}, {h:'妹妹', p:'mèimei', m:'младшая сестра', en:'younger sister'}, {h:'门', p:'mén', m:'дверь', en:'door'},
+    {h:'面条', p:'miàntiáo', m:'лапша', en:'noodles'}, {h:'男', p:'nán', m:'мужчина', en:'male'}, {h:'您', p:'nín', m:'вы', en:'you (polite)'},
+    {h:'牛奶', p:'niúnǎi', m:'молоко', en:'milk'}, {h:'女', p:'nǚ', m:'женщина', en:'female'}, {h:'旁边', p:'pángbiān', m:'рядом', en:'beside'},
+    {h:'跑步', p:'pǎobù', m:'бегать', en:'to run'}, {h:'便宜', p:'piányi', m:'дешевый', en:'cheap'}, {h:'票', p:'piào', m:'билет', en:'ticket'},
+    {h:'妻子', p:'qīzi', m:'жена', en:'wife'}, {h:'起床', p:'qǐchuáng', m:'вставать', en:'to get up'}, {h:'千', p:'qiān', m:'тысяча', en:'thousand'},
+    {h:'铅笔', p:'qiānbǐ', m:'карандаш', en:'pencil'}, {h:'晴', p:'qíng', m:'ясный', en:'sunny'}, {h:'去年', p:'qùnián', m:'прошлый год', en:'last year'},
+    {h:'让', p:'ràng', m:'позволять', en:'to let'}, {h:'日', p:'rì', m:'день', en:'day'}, {h:'上班', p:'shàngbān', m:'на работу', en:'go to work'},
+    {h:'身体', p:'shēntǐ', m:'тело', en:'body'}, {h:'生病', p:'shēngbìng', m:'болеть', en:'get sick'}, {h:'生日', p:'shēngrì', m:'день рождения', en:'birthday'},
+    {h:'时间', p:'shíjiān', m:'время', en:'time'}, {h:'事情', p:'shìqing', m:'дело', en:'matter'}, {h:'手表', p:'shǒubiǎo', m:'часы', en:'watch'},
+    {h:'手机', p:'shǒujī', m:'телефон', en:'mobile phone'}, {h:'说话', p:'shuōhuà', m:'говорить', en:'to speak'}, {h:'送', p:'sòng', m:'дарить', en:'to give'},
+    {h:'虽然', p:'suīrán', m:'хотя', en:'although'}, {h:'但是', p:'dànshì', m:'но', en:'but'}, {h:'它', p:'tā', m:'оно', en:'it'},
+    {h:'踢足球', p:'tī zúqiú', m:'играть в футбол', en:'play football'}, {h:'题', p:'tí', m:'вопрос', en:'question'}, {h:'跳舞', p:'tiàowǔ', m:'танцевать', en:'to dance'},
+    {h:'外', p:'wài', m:'снаружи', en:'outside'}, {h:'完', p:'wán', m:'заканчивать', en:'to finish'}, {h:'玩', p:'wán', m:'играть', en:'to play'},
+    {h:'晚上', p:'wǎnshang', m:'вечер', en:'evening'}, {h:'往', p:'wǎng', m:'в сторону', en:'towards'}, {h:'为什么', p:'wèi shénme', m:'почему', en:'why'},
+    {h:'问', p:'wèn', m:'спрашивать', en:'to ask'}, {h:'问题', p:'wèntí', m:'проблема', en:'problem'}, {h:'西瓜', p:'xīguā', m:'арбуз', en:'watermelon'},
+    {h:'希望', p:'xīwàng', m:'надеяться', en:'to hope'}, {h:'洗', p:'xǐ', m:'мыть', en:'to wash'}, {h:'小时', p:'xiǎoshí', m:'час', en:'hour'},
+    {h:'笑', p:'xiào', m:'смеяться', en:'to laugh'}, {h:'新', p:'xīn', m:'новый', en:'new'}, {h:'姓', p:'xìng', m:'фамилия', en:'surname'},
+    {h:'休息', p:'xiūxi', m:'отдыхать', en:'to rest'}, {h:'雪', p:'xuě', m:'снег', en:'snow'}, {h:'颜色', p:'yánsè', m:'цвет', en:'color'},
+    {h:'眼睛', p:'yǎnjing', m:'глаза', en:'eyes'}, {h:'羊肉', p:'yángròu', m:'баранина', en:'mutton'}, {h:'药', p:'yào', m:'лекарство', en:'medicine'},
+    {h:'要', p:'yào', m:'хотеть', en:'to want'}, {h:'也', p:'yě', m:'тоже', en:'also'}, {h:'一起', p:'yìqǐ', m:'вместе', en:'together'},
+    {h:'一下', p:'yíxià', m:'немного', en:'a bit'}, {h:'已经', p:'yǐjīng', m:'уже', en:'already'}, {h:'意思', p:'yìsi', m:'значение', en:'meaning'},
+    {h:'因为', p:'yīnwèi', m:'потому что', en:'because'}, {h:'所以', p:'suǒyǐ', m:'поэтому', en:'therefore'}, {h:'阴', p:'yīn', m:'пасмурный', en:'cloudy'},
+    {h:'游泳', p:'yóuyǒng', m:'плавать', en:'to swim'}, {h:'右边', p:'yòubian', m:'справа', en:'right side'}, {h:'鱼', p:'yú', m:'рыба', en:'fish'},
+    {h:'远', p:'yuǎn', m:'далекий', en:'far'}, {h:'运动', p:'yùndòng', m:'спорт', en:'sport'}, {h:'早', p:'zǎo', m:'рано', en:'early'},
+    {h:'早上', p:'zǎoshang', m:'утро', en:'morning'}, {h:'丈夫', p:'zhàngfu', m:'муж', en:'husband'}, {h:'找', p:'zhǎo', m:'искать', en:'to find'},
+    {h:'着', p:'zhe', m:'частица', en:'particle'}, {h:'真', p:'zhēn', m:'настоящий', en:'true'}, {h:'正在', p:'zhèngzài', m:'в процессе', en:'in the process of'},
+    {h:'知道', p:'zhīdào', m:'знать', en:'to know'}, {h:'准备', p:'zhǔnbèi', m:'готовить', en:'to prepare'}, {h:'走', p:'zǒu', m:'идти', en:'to walk'},
+    {h:'最', p:'zuì', m:'самый', en:'most'}, {h:'左边', p:'zuǒbian', m:'слева', en:'left side'}
   ],
   3: [
-    {h:'爱', p:'ài', m:'любить', en:'to love'}, {h:'班', p:'bān', m:'класс', en:'class'},
-    {h:'半', p:'bàn', m:'половина', en:'half'}, {h:'包', p:'bāo', m:'сумка', en:'bag'},
-    {h:'北', p:'běi', m:'север', en:'north'}, {h:'边', p:'biān', m:'сторона', en:'side'},
-    {h:'变', p:'biàn', m:'меняться', en:'to change'}, {h:'步', p:'bù', m:'шаг', en:'step'},
-    {h:'菜', p:'cài', m:'блюдо', en:'dish'}, {h:'草', p:'cǎo', m:'трава', en:'grass'},
-    {h:'城', p:'chéng', m:'город', en:'city'}, {h:'春', p:'chūn', m:'весна', en:'spring'}
-  ],
-  4: [
-    {h:'干', p:'gàn', m:'делать', en:'tree trunk; main part of sth; to manage'},
-    {h:'按', p:'àn', m:'нажимать', en:'to press'}, {h:'摆', p:'bǎi', m:'расставлять', en:'to arrange'},
-    {h:'败', p:'bài', m:'проигрывать', en:'to lose'}, {h:'伴', p:'bàn', m:'спутник', en:'companion'},
-    {h:'抱', p:'bào', m:'обнимать', en:'to hug'}, {h:'悲', p:'bēi', m:'печальный', en:'sad'},
-    {h:'备', p:'bèi', m:'готовить', en:'to prepare'}, {h:'笨', p:'bèn', m:'глупый', en:'stupid'},
-    {h:'笔', p:'bǐ', m:'ручка', en:'pen'}, {h:'闭', p:'bì', m:'закрывать', en:'to close'}
-  ]
-};
-
-// --- ОЗВУЧКА (Работает офлайн через голос телефона) ---
-function speak(text) {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel(); // останавливаем предыдущую
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN';
-    u.rate = 0.8; // немного медленнее для учебы
-    speechSynthesis.speak(u);
-  }
-}
-
-function playError() {
-  speak('不对');
-}
-
-// --- ЛОГИКА ---
-let writer = null;
-let currentLevel = 1;
-let currentBatch = [];
-let currentIndex = 0;
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// Отрисовка главного экрана
-const levelsList = document.getElementById('levels-list');
-const levelNames = { 1: 'Начальный', 2: 'Базовый', 3: 'Элементарный', 4: 'Средний' };
-[1, 2, 3, 4].forEach(lvl => {
-  const card = document.createElement('div');
-  card.className = 'level-card';
-  card.onclick = () => startLevel(lvl);
-  card.innerHTML = `
-    <div class="level-num">${lvl}</div>
-    <div class="level-info">
-      <div class="level-title">HSK ${lvl} · ${levelNames[lvl]}</div>
-      <div class="level-desc">${WORDS[lvl].length * 5} слов · без ошибок написано 0</div>
-      <div class="progress-bar-bg"></div>
-    </div>
-  `;
-  levelsList.appendChild(card);
-});
-
-function startLevel(lvl) {
-  currentLevel = lvl;
-  currentBatch = shuffle(WORDS[lvl]).slice(0, 10);
-  currentIndex = 0;
-  
-  document.getElementById('start-screen').classList.remove('active');
-  document.getElementById('practice-screen').classList.add('active');
-  renderWord();
-}
-
-function goBack() {
-  document.getElementById('practice-screen').classList.remove('active');
-  document.getElementById('start-screen').classList.add('active');
-  if(writer) writer.cancelQuiz();
-}
-
-function renderWord() {
-  if (currentIndex >= currentBatch.length) {
-    document.getElementById('progress-text').textContent = 'Готово! 🎉';
-    document.getElementById('writer-container').innerHTML = '<div style="font-size:20px; padding: 40px 0;">Все 10 слов прописаны!</div>';
-    document.getElementById('btn-next').classList.remove('active');
-    return;
-  }
-  
-  const w = currentBatch[currentIndex];
-  document.getElementById('progress-text').textContent = `Слово ${currentIndex + 1} из 10 · HSK ${currentLevel}`;
-  document.getElementById('progress-fill').style.width = `${((currentIndex) / 10) * 100}%`;
-  
-  document.getElementById('word-ru').textContent = w.m;
-  document.getElementById('word-py').textContent = w.p;
-  document.getElementById('word-en').textContent = w.en || '';
-  
-  document.getElementById('btn-next').classList.remove('active');
-  
-  // Автоматическая озвучка при показе нового слова
-  speak(w.h);
-  
-  setupWriter(w.h);
-}
-
-function setupWriter(char) {
-  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
-  
-  writer = HanziWriter.create('writer-target', char, {
-    width: 260,
-    height: 260,
-    padding: 5,
-    showOutline: true,
-    showCharacter: false,
-    strokeColor: '#b33a2e',
-    outlineColor: '#e8e0d1',
-    drawingColor: '#b33a2e',
-    highlightColor: '#d8a5a0',
-    onMistake: function() {
-      playError();
-    }
-  });
-  
-  startQuiz();
-}
-
-function startQuiz() {
-  writer.quiz({
-    onComplete: function() {
-      document.getElementById('btn-next').classList.add('active');
-    }
-  });
-}
-
-function showHint() {
-  if(!writer) return;
-  const char = currentBatch[currentIndex].h;
-  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
-  const tempWriter = HanziWriter.create('writer-target', char, {
-    width: 260, height: 260, padding: 5, showOutline: true, showCharacter: false,
-    strokeColor: '#b33a2e', outlineColor: '#e8e0d1'
-  });
-  tempWriter.animateCharacter({
-    onComplete: function() {
-      setupWriter(char);
-    }
-  });
-}
-
-function playOrder() {
-  if(!writer) return;
-  writer.cancelQuiz();
-  writer.animateCharacter({
-    onComplete: function() {
-      setupWriter(currentBatch[currentIndex].h);
-    }
-  });
-}
-
-function resetWriter() {
-  if(!writer) return;
-  setupWriter(currentBatch[currentIndex].h);
-}
-
-function speakCurrentWord() {
-  if(currentBatch[currentIndex]) {
-    speak(currentBatch[currentIndex].h);
-  }
-}
-
-function nextWord() {
-  currentIndex++;
-  renderWord();
-}
-</script>
-</body>
-</html>
+    {h:'阿姨', p:'āyí', m:'тетя', en:'aunt'},
