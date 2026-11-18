@@ -3,81 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Пропись иероглифов | HSK 1–4</title>
+<title>Пропись иероглифов</title>
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <style>
-  :root { 
-    --bg: #f7f4ec; 
-    --card-bg: #fffdf9; 
-    --text-main: #2b2b2b; 
-    --text-muted: #888; 
-    --red: #b33a2e; 
-    --red-light: #d8a5a0; 
-    --border: #e6ddcc; 
-    --btn-bg: #fffdf9; 
-  }
+  :root { --bg: #f7f4ec; --card-bg: #fffdf9; --text-main: #2b2b2b; --text-muted: #888; --red: #b33a2e; --red-light: #d8a5a0; --border: #e6ddcc; --btn-bg: #fffdf9; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { 
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-    background: var(--bg); 
-    color: var(--text-main); 
-    min-height: 100vh; 
-    padding: 20px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text-main); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
   .container { width: 100%; max-width: 480px; display: none; }
   .container.active { display: block; }
   h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #1a1a1a; }
   .subtitle { font-size: 15px; color: #666; line-height: 1.4; margin-bottom: 24px; }
-  
-  /* Карточки уровней */
-  .level-card { 
-    background: var(--card-bg); 
-    border: 1px solid var(--border); 
-    border-radius: 16px; 
-    padding: 20px; 
-    margin-bottom: 12px; 
-    display: flex; 
-    align-items: center; 
-    cursor: pointer; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-  }
+  .level-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 12px; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
   .level-card:active { transform: scale(0.98); }
   .level-num { font-size: 36px; font-weight: 700; color: var(--red); width: 50px; flex-shrink: 0; font-family: "Times New Roman", serif; }
   .level-info { flex-grow: 1; }
   .level-title { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
   .level-desc { font-size: 14px; color: #777; margin-bottom: 8px; }
   .progress-bar-bg { height: 6px; background: #e8e0d1; border-radius: 3px; width: 100%; }
-  
-  /* Экран практики */
   .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .back-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 10px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; color: var(--text-main); font-weight: 500; }
   .progress-text { font-size: 13px; color: #888; text-align: right; width: 100%; margin-left: 16px; margin-bottom: 6px; }
   .top-progress-bg { height: 4px; background: #e8e0d1; border-radius: 2px; width: 100%; }
   .top-progress-fill { height: 100%; background: var(--red); width: 0%; border-radius: 2px; transition: width 0.3s; }
-  
-  .word-card { 
-    background: var(--card-bg); 
-    border: 1px solid var(--border); 
-    border-radius: 20px; 
-    padding: 24px 20px; 
-    text-align: center; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
-  }
+  .word-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
   .word-ru { font-size: 26px; font-weight: 600; margin-bottom: 4px; display: flex; justify-content: center; align-items: center; gap: 8px; }
   .word-py { font-size: 24px; color: var(--red); margin-bottom: 6px; font-family: "Times New Roman", serif; }
   #writer-container { display: flex; justify-content: center; margin-bottom: 16px; position: relative; touch-action: none; }
   #writer-target { touch-action: none; }
-  
-  /* Сетка кнопок */
   .btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
   .btn-outline { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 12px; padding: 12px 4px; font-size: 14px; color: var(--text-main); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
   .btn-outline:active { background: #f0ebd9; }
   .btn-speak { background: transparent; border: none; cursor: pointer; font-size: 20px; padding: 4px; }
-  
-  /* Нижние кнопки навигации */
   .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .btn-skip { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 16px; color: var(--text-main); cursor: pointer; font-weight: 500; }
   .btn-next { background: var(--red-light); border: none; border-radius: 12px; padding: 16px; font-size: 16px; color: white; cursor: pointer; opacity: 0.5; pointer-events: none; font-weight: 500; transition: 0.2s; }
@@ -86,14 +42,12 @@
 </head>
 <body>
 
-<!-- Экран выбора уровней -->
 <div class="container active" id="start-screen">
   <h1>Пропись иероглифов</h1>
   <p class="subtitle">Выберите уровень HSK. Сайт даст 10 случайных слов: пишите иероглифы пером или пальцем, а сайт проверит порядок и форму черт.</p>
   <div id="levels-list"></div>
 </div>
 
-<!-- Экран практики -->
 <div class="container" id="practice-screen">
   <div class="top-bar">
     <button class="back-btn" onclick="goBack()">← Уровни</button>
@@ -122,79 +76,152 @@
 </div>
 
 <script>
-// База данных слов (полный HSK 1-4 + запас)
 const WORDS = {
   1: [
     {h:'爱',p:'ài',m:'любить'}, {h:'八',p:'bā',m:'восемь'}, {h:'爸爸',p:'bàba',m:'папа'}, {h:'杯子',p:'bēizi',m:'чашка'}, {h:'北京',p:'Běijīng',m:'Пекин'},
-    {h:'本',p:'běn',m:'счетное слово'}, {h:'不客气',p:'bú kèqi',m:'не за что'}, {h:'菜',p:'cài',m:'еда'}, {h:'茶',p:'chá',m:'чай'}, {h:'吃',p:'chī',m:'есть'},
-    {h:'出租车',p:'chūzūchē',m:'такси'}, {h:'打电话',p:'dǎ diànhuà',m:'звонить'}, {h:'大',p:'dà',m:'большой'}, {h:'的',p:'de',m:'притяжательная частица'}, {h:'点',p:'diǎn',m:'час'}, 
-    {h:'电脑',p:'diànnǎo',m:'компьютер'}, {h:'电视',p:'diànshì',m:'телевизор'}, {h:'电影',p:'diànyǐng',m:'кино'}, {h:'东西',p:'dōngxi',m:'вещи'}, {h:'都',p:'dōu',m:'все'},
-    {h:'读',p:'dú',m:'читать'}, {h:'对不起',p:'duìbuqǐ',m:'извините'}, {h:'多',p:'duō',m:'много'}, {h:'多少',p:'duōshao',m:'сколько'}, {h:'儿子',p:'érzi',m:'сын'},
-    {h:'二',p:'èr',m:'два'}, {h:'饭馆',p:'fànguǎn',m:'ресторан'}, {h:'飞机',p:'fēijī',m:'самолет'}, {h:'分钟',p:'fēnzhōng',m:'минута'}, {h:'高兴',p:'gāoxìng',m:'радостный'},
-    {h:'个',p:'gè',m:'счетное слово'}, {h:'工作',p:'gōngzuò',m:'работа'}, {h:'狗',p:'gǒu',m:'собака'}, {h:'汉语',p:'Hànyǔ',m:'китайский язык'}, {h:'好',p:'hǎo',m:'хороший'},
-    {h:'号',p:'hào',m:'число'}, {h:'喝',p:'hē',m:'пить'}, {h:'和',p:'hé',m:'и'}, {h:'很',p:'hěn',m:'очень'}, {h:'后面',p:'hòumiàn',m:'сзади'},
-    {h:'回',p:'huí',m:'возвращаться'}, {h:'会',p:'huì',m:'уметь'}, {h:'火车站',p:'huǒchēzhàn',m:'ж/д станция'}, {h:'几',p:'jǐ',m:'сколько'}, {h:'家',p:'jiā',m:'семья'},
-    {h:'叫',p:'jiào',m:'звать'}, {h:'今天',p:'jīntiān',m:'сегодня'}, {h:'九',p:'jiǔ',m:'девять'}, {h:'开',p:'kāi',m:'открывать'}, {h:'看',p:'kàn',m:'смотреть'},
-    {h:'看见',p:'kànjiàn',m:'видеть'}, {h:'块',p:'kuài',m:'кусок'}, {h:'来',p:'lái',m:'приходить'}, {h:'老师',p:'lǎoshī',m:'учитель'}, {h:'了',p:'le',m:'частица'},
-    {h:'冷',p:'lěng',m:'холодный'}, {h:'里',p:'lǐ',m:'внутри'}, {h:'六',p:'liù',m:'шесть'}, {h:'妈妈',p:'māma',m:'мама'}, {h:'吗',p:'ma',m:'вопросительная частица'},
-    {h:'买',p:'mǎi',m:'покупать'}, {h:'猫',p:'māo',m:'кошка'}, {h:'没关系',p:'méi guānxi',m:'ничего страшного'}, {h:'没有',p:'méiyǒu',m:'не иметь'}, {h:'米饭',p:'mǐfàn',m:'рис'},
-    {h:'名字',p:'míngzi',m:'имя'}, {h:'明天',p:'míngtiān',m:'завтра'}, {h:'哪',p:'nǎ',m:'какой'}, {h:'哪儿',p:'nǎr',m:'где'}, {h:'那',p:'nà',m:'тот'},
-    {h:'呢',p:'ne',m:'частица'}, {h:'能',p:'néng',m:'мочь'}, {h:'你',p:'nǐ',m:'ты'}, {h:'年',p:'nián',m:'год'}, {h:'女儿',p:'nǚ’ér',m:'дочь'},
-    {h:'朋友',p:'péngyou',m:'друг'}, {h:'漂亮',p:'piàoliang',m:'красивый'}, {h:'苹果',p:'píngguǒ',m:'яблоко'}, {h:'七',p:'qī',m:'семь'}, {h:'钱',p:'qián',m:'деньги'},
-    {h:'前面',p:'qiánmiàn',m:'спереди'}, {h:'请',p:'qǐng',m:'пожалуйста'}, {h:'去',p:'qù',m:'идти'}, {h:'热',p:'rè',m:'жаркий'}, {h:'人',p:'rén',m:'человек'},
-    {h:'认识',p:'rènshi',m:'знать'}, {h:'三',p:'sān',m:'три'}, {h:'商店',p:'shāngdiàn',m:'магазин'}, {h:'上',p:'shàng',m:'верх'}, {h:'上午',p:'shàngwǔ',m:'утро'},
-    {h:'少',p:'shǎo',m:'мало'}, {h:'谁',p:'shéi',m:'кто'}, {h:'什么',p:'shénme',m:'что'}, {h:'十',p:'shí',m:'десять'}, {h:'时候',p:'shíhou',m:'время'},
-    {h:'是',p:'shì',m:'быть'}, {h:'书',p:'shū',m:'книга'}, {h:'水',p:'shuǐ',m:'вода'}, {h:'水果',p:'shuǐguǒ',m:'фрукты'}, {h:'睡觉',p:'shuìjiào',m:'спать'},
-    {h:'说话',p:'shuōhuà',m:'говорить'}, {h:'四',p:'sì',m:'четыре'}, {h:'岁',p:'suì',m:'лет'}, {h:'他',p:'tā',m:'он'}, {h:'她',p:'tā',m:'она'},
-    {h:'太',p:'tài',m:'слишком'}, {h:'天气',p:'tiānqì',m:'погода'}, {h:'听',p:'tīng',m:'слушать'}, {h:'同学',p:'tóngxué',m:'одноклассник'}, {h:'喂',p:'wèi',m:'алло'},
-    {h:'我',p:'wǒ',m:'я'}, {h:'我们',p:'wǒmen',m:'мы'}, {h:'五',p:'wǔ',m:'пять'}, {h:'喜欢',p:'xǐhuan',m:'нравиться'}, {h:'下',p:'xià',m:'низ'},
-    {h:'下午',p:'xiàwǔ',m:'день'}, {h:'下雨',p:'xiàyǔ',m:'идёт дождь'}, {h:'先生',p:'xiānsheng',m:'господин'}, {h:'现在',p:'xiànzài',m:'сейчас'}, {h:'想',p:'xiǎng',m:'хотеть'},
-    {h:'小',p:'xiǎo',m:'маленький'}, {h:'小姐',p:'xiǎojiě',m:'госпожа'}, {h:'些',p:'xiē',m:'некоторые'}, {h:'写',p:'xiě',m:'писать'}, {h:'谢谢',p:'xièxie',m:'спасибо'},
-    {h:'星期',p:'xīngqī',m:'неделя'}, {h:'学生',p:'xuésheng',m:'ученик'}, {h:'学习',p:'xuéxí',m:'учиться'}, {h:'学校',p:'xuéxiào',m:'школа'}, {h:'一',p:'yī',m:'один'},
-    {h:'衣服',p:'yīfu',m:'одежда'}, {h:'医生',p:'yīshēng',m:'врач'}, {h:'医院',p:'yīyuàn',m:'больница'}, {h:'椅子',p:'yǐzi',m:'стул'}, {h:'有',p:'yǒu',m:'иметь'},
-    {h:'月',p:'yuè',m:'месяц'}, {h:'再见',p:'zàijiàn',m:'до свидания'}, {h:'在',p:'zài',m:'быть в'}, {h:'怎么',p:'zěnme',m:'как'}, {h:'怎么样',p:'zěnmeyàng',m:'как дела'},
-    {h:'这',p:'zhè',m:'это'}, {h:'中国',p:'Zhōngguó',m:'Китай'}, {h:'中午',p:'zhōngwǔ',m:'полдень'}, {h:'住',p:'zhù',m:'жить'}, {h:'桌子',p:'zhuōzi',m:'стол'},
-    {h:'字',p:'zì',m:'иероглиф'}, {h:'昨天',p:'zuótiān',m:'вчера'}, {h:'坐',p:'zuò',m:'сидеть'}, {h:'做',p:'zuò',m:'делать'}
+    {h:'本',p:'běn',m:'счетное слово'}, {h:'菜',p:'cài',m:'еда'}, {h:'茶',p:'chá',m:'чай'}, {h:'吃',p:'chī',m:'есть'}, {h:'大',p:'dà',m:'большой'},
+    {h:'点',p:'diǎn',m:'час'}, {h:'电脑',p:'diànnǎo',m:'компьютер'}, {h:'电视',p:'diànshì',m:'телевизор'}, {h:'电影',p:'diànyǐng',m:'кино'}, {h:'东西',p:'dōngxi',m:'вещи'}
   ],
   2: [
     {h:'吧',p:'ba',m:'частица'}, {h:'白',p:'bái',m:'белый'}, {h:'百',p:'bǎi',m:'сто'}, {h:'帮助',p:'bāngzhù',m:'помогать'}, {h:'报纸',p:'bàozhǐ',m:'газета'},
     {h:'比',p:'bǐ',m:'сравнивать'}, {h:'别',p:'bié',m:'не'}, {h:'宾馆',p:'bīnguǎn',m:'гостиница'}, {h:'长',p:'cháng',m:'длинный'}, {h:'唱歌',p:'chànggē',m:'петь'},
-    {h:'出',p:'chū',m:'выходить'}, {h:'穿',p:'chuān',m:'носить'}, {h:'船',p:'chuán',m:'лодка'}, {h:'次',p:'cì',m:'раз'}, {h:'从',p:'cóng',m:'из'},
-    {h:'错',p:'cuò',m:'ошибка'}, {h:'打篮球',p:'dǎ lánqiú',m:'играть в баскетбол'}, {h:'大家',p:'dàjiā',m:'все'}, {h:'到',p:'dào',m:'до'}, {h:'得',p:'de',m:'частица'},
-    {h:'等',p:'děng',m:'ждать'}, {h:'弟弟',p:'dìdi',m:'младший брат'}, {h:'第一',p:'dìyī',m:'первый'}, {h:'懂',p:'dǒng',m:'понимать'}, {h:'对',p:'duì',m:'правильный'},
-    {h:'房间',p:'fángjiān',m:'комната'}, {h:'非常',p:'fēicháng',m:'очень'}, {h:'服务员',p:'fúwùyuán',m:'официант'}, {h:'高',p:'gāo',m:'высокий'}, {h:'告诉',p:'gàosu',m:'сказать'},
-    {h:'哥哥',p:'gēge',m:'старший брат'}, {h:'给',p:'gěi',m:'давать'}, {h:'公共汽车',p:'gōnggòng qìchē',m:'автобус'}, {h:'公司',p:'gōngsī',m:'компания'}, {h:'贵',p:'guì',m:'дорогой'},
-    {h:'过',p:'guò',m:'проходить'}, {h:'还',p:'hái',m:'еще'}, {h:'孩子',p:'háizi',m:'ребенок'}, {h:'好吃',p:'hǎochī',m:'вкусный'}, {h:'黑',p:'hēi',m:'черный'},
-    {h:'红',p:'hóng',m:'красный'}, {h:'欢迎',p:'huānyíng',m:'добро пожаловать'}, {h:'回答',p:'huídá',m:'отвечать'}, {h:'机场',p:'jīchǎng',m:'аэропорт'}, {h:'鸡蛋',p:'jīdàn',m:'яйцо'},
-    {h:'件',p:'jiàn',m:'счетное слово'}, {h:'教室',p:'jiàoshì',m:'аудитория'}, {h:'姐姐',p:'jiějie',m:'старшая сестра'}, {h:'介绍',p:'jièshào',m:'знакомить'}, {h:'进',p:'jìn',m:'входить'},
-    {h:'近',p:'jìn',m:'близкий'}, {h:'就',p:'jiù',m:'тогда'}, {h:'觉得',p:'juéde',m:'чувствовать'}, {h:'咖啡',p:'kāfēi',m:'кофе'}, {h:'开始',p:'kāishǐ',m:'начинать'},
-    {h:'考试',p:'kǎoshì',m:'экзамен'}, {h:'可能',p:'kěnéng',m:'возможно'}, {h:'可以',p:'kěyǐ',m:'можно'}, {h:'课',p:'kè',m:'урок'}, {h:'快',p:'kuài',m:'быстрый'},
-    {h:'快乐',p:'kuàilè',m:'счастливый'}, {h:'累',p:'lèi',m:'уставший'}, {h:'离',p:'lí',m:'от'}, {h:'两',p:'liǎng',m:'два'}, {h:'零',p:'líng',m:'ноль'},
-    {h:'路',p:'lù',m:'дорога'}, {h:'旅游',p:'lǚyóu',m:'путешествовать'}, {h:'卖',p:'mài',m:'продавать'}, {h:'慢',p:'màn',m:'медленный'}, {h:'忙',p:'máng',m:'занятый'},
-    {h:'每',p:'měi',m:'каждый'}, {h:'妹妹',p:'mèimei',m:'младшая сестра'}, {h:'门',p:'mén',m:'дверь'}, {h:'面条',p:'miàntiáo',m:'лапша'}, {h:'男',p:'nán',m:'мужской'},
-    {h:'您',p:'nín',m:'Вы'}, {h:'牛奶',p:'niúnǎi',m:'молоко'}, {h:'女',p:'nǚ',m:'женский'}, {h:'旁边',p:'pángbiān',m:'рядом'}, {h:'跑步',p:'pǎobù',m:'бегать'},
-    {h:'便宜',p:'piányi',m:'дешевый'}, {h:'票',p:'piào',m:'билет'}, {h:'妻子',p:'qīzi',m:'жена'}, {h:'起床',p:'qǐchuáng',m:'вставать'}, {h:'千',p:'qiān',m:'тысяча'},
-    {h:'铅笔',p:'qiānbǐ',m:'карандаш'}, {h:'晴',p:'qíng',m:'ясный'}, {h:'去年',p:'qùnián',m:'в прошлом году'}, {h:'让',p:'ràng',m:'позволять'}, {h:'日',p:'rì',m:'день'},
-    {h:'上班',p:'shàngbān',m:'на работу'}, {h:'身体',p:'shēntǐ',m:'тело'}, {h:'生病',p:'shēngbìng',m:'заболеть'}, {h:'生日',p:'shēngrì',m:'день рождения'}, {h:'时间',p:'shíjiān',m:'время'},
-    {h:'事情',p:'shìqing',m:'дело'}, {h:'手表',p:'shǒubiǎo',m:'часы'}, {h:'手机',p:'shǒujī',m:'телефон'}, {h:'说话',p:'shuōhuà',m:'говорить'}, {h:'送',p:'sòng',m:'дарить'},
-    {h:'虽然',p:'suīrán',m:'хотя'}, {h:'它',p:'tā',m:'оно'}, {h:'踢足球',p:'tī zúqiú',m:'играть в футбол'}, {h:'题',p:'tí',m:'вопрос'}, {h:'跳舞',p:'tiàowǔ',m:'танцевать'},
-    {h:'外',p:'wài',m:'снаружи'}, {h:'完',p:'wán',m:'заканчивать'}, {h:'玩',p:'wán',m:'играть'}, {h:'晚上',p:'wǎnshang',m:'вечер'}, {h:'往',p:'wǎng',m:'в направлении'},
-    {h:'为什么',p:'wèi shénme',m:'почему'}, {h:'问',p:'wèn',m:'спрашивать'}, {h:'问题',p:'wèntí',m:'проблема'}, {h:'西瓜',p:'xīguā',m:'арбуз'}, {h:'希望',p:'xīwàng',m:'надеяться'},
-    {h:'洗',p:'xǐ',m:'мыть'}, {h:'小时',p:'xiǎoshí',m:'час'}, {h:'笑',p:'xiào',m:'смеяться'}, {h:'新',p:'xīn',m:'новый'}, {h:'姓',p:'xìng',m:'фамилия'},
-    {h:'休息',p:'xiūxi',m:'отдыхать'}, {h:'雪',p:'xuě',m:'снег'}, {h:'颜色',p:'yánsè',m:'цвет'}, {h:'眼睛',p:'yǎnjing',m:'глаза'}, {h:'羊肉',p:'yángròu',m:'баранина'},
-    {h:'药',p:'yào',m:'лекарство'}, {h:'要',p:'yào',m:'хотеть'}, {h:'也',p:'yě',m:'тоже'}, {h:'一起',p:'yīqǐ',m:'вместе'}, {h:'一下',p:'yīxià',m:'немного'},
-    {h:'已经',p:'yǐjīng',m:'уже'}, {h:'意思',p:'yìsi',m:'значение'}, {h:'因为',p:'yīnwèi',m:'потому что'}, {h:'阴',p:'yīn',m:'пасмурный'}, {h:'游泳',p:'yóuyǒng',m:'плавать'},
-    {h:'右边',p:'yòubian',m:'справа'}, {h:'鱼',p:'yú',m:'рыба'}, {h:'远',p:'yuǎn',m:'далекий'}, {h:'运动',p:'yùndòng',m:'спорт'}, {h:'再',p:'zài',m:'еще'},
-    {h:'早上',p:'zǎoshang',m:'утро'}, {h:'丈夫',p:'zhàngfu',m:'муж'}, {h:'找',p:'zhǎo',m:'искать'}, {h:'着',p:'zhe',m:'частица'}, {h:'真',p:'zhēn',m:'правда'},
-    {h:'正在',p:'zhèngzài',m:'сейчас'}, {h:'知道',p:'zhīdào',m:'знать'}, {h:'准备',p:'zhǔnbèi',m:'готовить'}, {h:'走',p:'zǒu',m:'идти'}, {h:'最',p:'zuì',m:'самый'},
-    {h:'左边',p:'zuǒbian',m:'слева'}
+    {h:'出',p:'chū',m:'выходить'}, {h:'穿',p:'chuān',m:'носить'}, {h:'船',p:'chuán',m:'лодка'}, {h:'次',p:'cì',m:'раз'}, {h:'从',p:'cóng',m:'из'}
   ],
   3: [
     {h:'阿姨',p:'āyí',m:'тетя'}, {h:'啊',p:'a',m:'ах'}, {h:'矮',p:'ǎi',m:'низкий'}, {h:'爱好',p:'àihào',m:'хобби'}, {h:'安静',p:'ānjìng',m:'тихий'},
     {h:'把',p:'bǎ',m:'предлог'}, {h:'搬',p:'bān',m:'двигать'}, {h:'班',p:'bān',m:'класс'}, {h:'半',p:'bàn',m:'половина'}, {h:'办法',p:'bànfǎ',m:'способ'},
-    {h:'办公室',p:'bàngōngshì',m:'офис'}, {h:'帮忙',p:'bāngmáng',m:'помогать'}, {h:'包',p:'bāo',m:'сумка'}, {h:'饱',p:'bǎo',m:'сытый'}, {h:'北方',p:'běifāng',m:'север'},
-    {h:'被',p:'bèi',m:'предлог'}, {h:'鼻子',p:'bízi',m:'нос'}, {h:'比较',p:'bǐjiào',m:'сравнивать'}, {h:'比赛',p:'bǐsài',m:'соревнование'}, {h:'笔记本',p:'bǐjìběn',m:'ноутбук'},
-    {h:'必须',p:'bìxū',m:'должен'}, {h:'变化',p:'biànhuà',m:'изменение'}, {h:'别的',p:'bié de',m:'другой'}, {h:'冰箱',p:'bīngxiāng',m:'холодильник'}, {h:'不但',p:'bùdàn',m:'не только'},
-    {h:'而且',p:'érqiě',m:'и к тому же'}, {h:'菜单',p:'càidān',m:'меню'}, {h:'参加',p:'cānjiā',m:'участвовать'}, {h:'草',p:'cǎo',m:'трава'}, {h:'层',p:'céng',m:'этаж'},
-    {h:'差',p:'chà',m:'разница'}, {h:'超市',p:'chāoshì',m:'супермаркет'}, {h:'衬衫',p:'chènshān',m:'рубашка'}, {h:'成绩',p:'chéngjì',m:'оценка'}, {h:'城市',p:'chéngshì',m:'город'},
-    {h:'迟到',p:'chídào',m:'опаздывать'}, {h:'除了',p:'chúle',
+    {h:'办公室',p:'bàngōngshì',m:'офис'}, {h:'帮忙',p:'bāngmáng',m:'помогать'}, {h:'包',p:'bāo',m:'сумка'}, {h:'饱',p:'bǎo',m:'сытый'}, {h:'北方',p:'běifāng',m:'север'}
+  ],
+  4: [
+    {h:'干',p:'gàn',m:'делать'}, {h:'按',p:'àn',m:'нажимать'}, {h:'摆',p:'bǎi',m:'расставлять'}, {h:'败',p:'bài',m:'проигрывать'}, {h:'伴',p:'bàn',m:'спутник'},
+    {h:'抱',p:'bào',m:'обнимать'}, {h:'悲',p:'bēi',m:'печальный'}, {h:'备',p:'bèi',m:'готовить'}, {h:'笨',p:'bèn',m:'глупый'}, {h:'笔',p:'bǐ',m:'ручка'},
+    {h:'闭',p:'bì',m:'закрывать'}, {h:'标',p:'biāo',m:'метка'}, {h:'表',p:'biǎo',m:'часы'}, {h:'冰',p:'bīng',m:'лёд'}, {h:'并',p:'bìng',m:'к тому же'}
+  ]
+};
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.8;
+    speechSynthesis.speak(u);
+  }
+}
+
+function playError() { speak('不对'); }
+
+let writer = null;
+let currentLevel = 1;
+let currentBatch = [];
+let currentIndex = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const levelsList = document.getElementById('levels-list');
+const levelNames = { 1: 'Начальный', 2: 'Базовый', 3: 'Элементарный', 4: 'Средний' };
+[1, 2, 3, 4].forEach(lvl => {
+  const card = document.createElement('div');
+  card.className = 'level-card';
+  card.onclick = () => startLevel(lvl);
+  card.innerHTML = `
+    <div class="level-num">${lvl}</div>
+    <div class="level-info">
+      <div class="level-title">HSK ${lvl} · ${levelNames[lvl]}</div>
+      <div class="level-desc">${WORDS[lvl].length} слов · без ошибок написано 0</div>
+      <div class="progress-bar-bg"></div>
+    </div>
+  `;
+  levelsList.appendChild(card);
+});
+
+function startLevel(lvl) {
+  currentLevel = lvl;
+  currentBatch = shuffle(WORDS[lvl]).slice(0, 10);
+  currentIndex = 0;
+  document.getElementById('start-screen').classList.remove('active');
+  document.getElementById('practice-screen').classList.add('active');
+  renderWord();
+}
+
+function goBack() {
+  document.getElementById('practice-screen').classList.remove('active');
+  document.getElementById('start-screen').classList.add('active');
+  if(writer) writer.cancelQuiz();
+}
+
+function renderWord() {
+  if (currentIndex >= currentBatch.length) {
+    document.getElementById('progress-text').textContent = 'Готово! 🎉';
+    document.getElementById('writer-container').innerHTML = '<div style="font-size:20px; padding: 40px 0;">Все 10 слов прописаны!</div>';
+    document.getElementById('btn-next').classList.remove('active');
+    return;
+  }
+  const w = currentBatch[currentIndex];
+  document.getElementById('progress-text').textContent = `Слово ${currentIndex + 1} из 10 · HSK ${currentLevel}`;
+  document.getElementById('progress-fill').style.width = `${((currentIndex) / 10) * 100}%`;
+  document.getElementById('word-ru').textContent = w.m;
+  document.getElementById('word-py').textContent = w.p;
+  document.getElementById('btn-next').classList.remove('active');
+  speak(w.h);
+  setupWriter(w.h);
+}
+
+function setupWriter(char) {
+  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
+  writer = HanziWriter.create('writer-target', char, {
+    width: 260, height: 260, padding: 5, 
+    showOutline: true, 
+    showCharacter: false,
+    showGrid: true,
+    strokeColor: '#b33a2e', 
+    outlineColor: '#e8e0d1', 
+    drawingColor: '#b33a2e', 
+    highlightColor: '#d8a5a0',
+    onMistake: function() { playError(); }
+  });
+  startQuiz();
+}
+
+function startQuiz() {
+  writer.quiz({ onComplete: function() { document.getElementById('btn-next').classList.add('active'); } });
+}
+
+function showHint() {
+  if(!writer) return;
+  const char = currentBatch[currentIndex].h;
+  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
+  const tempWriter = HanziWriter.create('writer-target', char, {
+    width: 260, height: 260, padding: 5, showOutline: true, showCharacter: false, showGrid: true, strokeColor: '#b33a2e', outlineColor: '#e8e0d1'
+  });
+  tempWriter.animateCharacter({ onComplete: function() { setupWriter(char); } });
+}
+
+function playOrder() {
+  if(!writer) return;
+  writer.cancelQuiz();
+  writer.animateCharacter({ onComplete: function() { setupWriter(currentBatch[currentIndex].h); } });
+}
+
+function resetWriter() {
+  if(!writer) return;
+  setupWriter(currentBatch[currentIndex].h);
+}
+
+function speakCurrentWord() {
+  if(currentBatch[currentIndex]) speak(currentBatch[currentIndex].h);
+}
+
+function nextWord() {
+  currentIndex++;
+  renderWord();
+}
+</script>
+</body>
+</html>
