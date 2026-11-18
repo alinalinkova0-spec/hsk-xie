@@ -221,7 +221,7 @@ function startQuiz(st){
     onMistake:s=>{st.mistakes++;flash(st,'bad');
       setMsg(st,`Не та черта (№${s.strokeNum+1}). Ошибок: ${st.mistakes}`,'bad');if(window.playHskText)playHskText(S.words[S.i].at(0));},
     onCorrectStroke:s=>{st.next=s.strokeNum+1;flash(st,'good');
-      setMsg(st,`Верно · черта ${s.strokeNum+1}, осталось ${s.strokesRemaining}`,'ok');},
+      setMsg(st,`Верно · черта ${s.strokeNum+1}, осталось ${s.strokesRemaining}`,'ok');if(window.playHskText)playHskText(st.ch);},
     onComplete:s=>{st.done=true;st.box.classList.add('done');
       const m=st.mistakes,p=st.peeks;
       setMsg(st,m===0&&p===0?'Отлично, без ошибок! ✨':`Готово · ошибок: ${m}${p?`, подсказок: ${p}`:''}`,'ok');
