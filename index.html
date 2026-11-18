@@ -2,42 +2,113 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSK 写</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Пропись иероглифов</title>
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f7; color: #1d1d1f; min-height: 100vh; padding: 20px; }
-  .container { max-width: 520px; margin: 0 auto; }
-  h1 { font-size: 24px; text-align: center; margin-bottom: 20px; }
-  .levels { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-  .level-btn { padding: 8px 16px; border: 1px solid #ccc; border-radius: 8px; background: white; cursor: pointer; font-size: 14px; }
-  .level-btn.active { background: #007aff; color: white; border-color: #007aff; }
-  .card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
-  .progress { font-size: 13px; color: #888; margin-bottom: 12px; }
-  .pinyin { font-size: 20px; color: #666; margin-bottom: 4px; }
-  .meaning { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
-  #writer { display: flex; justify-content: center; margin: 16px 0; }
-  .buttons { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
-  .btn { padding: 10px 20px; border: none; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 500; }
-  .btn-primary { background: #007aff; color: white; }
-  .btn-secondary { background: #e5e5ea; color: #1d1d1f; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  :root {
+    --bg: #f7f4ec;
+    --card-bg: #fffdf9;
+    --text-main: #2b2b2b;
+    --text-muted: #888;
+    --red: #b33a2e;
+    --red-light: #d8a5a0;
+    --border: #e6ddcc;
+    --btn-bg: #fffdf9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text-main); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center;
+  }
+  .container { width: 100%; max-width: 480px; display: none; }
+  .container.active { display: block; }
+  
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #1a1a1a; }
+  .subtitle { font-size: 15px; color: #666; line-height: 1.4; margin-bottom: 24px; }
+  
+  .level-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px; margin-bottom: 12px; display: flex; align-items: center; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.1s;
+  }
+  .level-card:active { transform: scale(0.98); }
+  .level-num { font-size: 36px; font-weight: 700; color: var(--red); width: 50px; flex-shrink: 0; font-family: "Times New Roman", serif; }
+  .level-info { flex-grow: 1; }
+  .level-title { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .level-desc { font-size: 14px; color: #777; margin-bottom: 8px; }
+  .progress-bar-bg { height: 6px; background: #e8e0d1; border-radius: 3px; width: 100%; }
+  
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .back-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 10px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; color: var(--text-main); font-weight: 500; }
+  .progress-text { font-size: 13px; color: #888; text-align: right; width: 100%; margin-left: 16px; margin-bottom: 6px; }
+  .top-progress-bg { height: 4px; background: #e8e0d1; border-radius: 2px; width: 100%; }
+  .top-progress-fill { height: 100%; background: var(--red); width: 0%; border-radius: 2px; transition: width 0.3s; }
+  
+  .word-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
+    padding: 24px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .word-ru { font-size: 26px; font-weight: 600; margin-bottom: 4px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+  .word-py { font-size: 24px; color: var(--red); margin-bottom: 6px; font-family: "Times New Roman", serif; }
+  .word-en { font-size: 14px; color: #888; margin-bottom: 20px; height: 18px; }
+  
+  #writer-container { display: flex; justify-content: center; margin-bottom: 16px; position: relative; }
+  
+  .btn-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .btn-outline {
+    background: var(--btn-bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 4px; font-size: 14px; color: var(--text-main); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  }
+  .btn-outline:active { background: #f0ebd9; }
+  .btn-speak { background: transparent; border: none; cursor: pointer; font-size: 20px; padding: 4px; }
+  
+  .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-skip { background: var(--btn-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 16px; color: var(--text-main); cursor: pointer; font-weight: 500; }
+  .btn-next { background: var(--red-light); border: none; border-radius: 12px; padding: 16px; font-size: 16px; color: white; cursor: pointer; opacity: 0.5; pointer-events: none; font-weight: 500; transition: 0.2s; }
+  .btn-next.active { background: var(--red); opacity: 1; pointer-events: auto; }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>HSK 写</h1>
-  <div class="levels" id="levels"></div>
-  <div class="card" id="card" style="display:none;">
-    <div class="progress" id="progress"></div>
-    <div class="pinyin" id="pinyin"></div>
-    <div class="meaning" id="meaning"></div>
-    <div id="writer"></div>
-    <div class="buttons">
-      <button class="btn btn-secondary" id="speakBtn">🔊 Прослушать</button>
-      <button class="btn btn-secondary" id="hintBtn">💡 Подсказка</button>
-      <button class="btn btn-primary" id="nextBtn" disabled>Дальше →</button>
+
+<!-- ГЛАВНЫЙ ЭКРАН -->
+<div class="container active" id="start-screen">
+  <h1>Пропись иероглифов</h1>
+  <p class="subtitle">Выберите уровень HSK. Сайт даст 10 случайных слов: пишите иероглифы пером или пальцем, а сайт проверит порядок и форму черт.</p>
+  
+  <div id="levels-list"></div>
+</div>
+
+<!-- ЭКРАН ПИСЬМА -->
+<div class="container" id="practice-screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goBack()">← Уровни</button>
+    <div style="flex-grow: 1;">
+      <div class="progress-text" id="progress-text">Слово 1 из 10 · HSK 1</div>
+      <div class="top-progress-bg"><div class="top-progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="word-card">
+    <div class="word-ru">
+      <span id="word-ru">—</span>
+      <button class="btn-speak" onclick="speakCurrentWord()">🔊</button>
+    </div>
+    <div class="word-py" id="word-py">—</div>
+    <div class="word-en" id="word-en"></div>
+    
+    <div id="writer-container"></div>
+    
+    <div class="btn-grid">
+      <button class="btn-outline" onclick="showHint()">Подсказка</button>
+      <button class="btn-outline" onclick="playOrder()">▶ Порядок<br>черт</button>
+      <button class="btn-outline" onclick="resetWriter()">↺ Заново</button>
+    </div>
+    
+    <div class="nav-grid">
+      <button class="btn-skip" onclick="nextWord()">Пропустить</button>
+      <button class="btn-next" id="btn-next" onclick="nextWord()">Дальше →</button>
     </div>
   </div>
 </div>
@@ -45,82 +116,65 @@
 <script>
 const WORDS = {
   1: [
-    { h:'好', p:'hǎo', m:'хороший' }, { h:'人', p:'rén', m:'человек' }, { h:'大', p:'dà', m:'большой' },
-    { h:'小', p:'xiǎo', m:'маленький' }, { h:'我', p:'wǒ', m:'я' }, { h:'你', p:'nǐ', m:'ты' },
-    { h:'他', p:'tā', m:'он' }, { h:'她', p:'tā', m:'она' }, { h:'是', p:'shì', m:'быть' },
-    { h:'不', p:'bù', m:'не' }, { h:'在', p:'zài', m:'находиться' }, { h:'有', p:'yǒu', m:'иметь' },
-    { h:'这', p:'zhè', m:'этот' }, { h:'那', p:'nà', m:'тот' }, { h:'哪', p:'nǎ', m:'какой' },
-    { h:'说', p:'shuō', m:'говорить' }, { h:'看', p:'kàn', m:'смотреть' }, { h:'听', p:'tīng', m:'слушать' },
-    { h:'想', p:'xiǎng', m:'хотеть' }, { h:'会', p:'huì', m:'уметь' }, { h:'能', p:'néng', m:'мочь' },
-    { h:'要', p:'yào', m:'нужно' }, { h:'来', p:'lái', m:'приходить' }, { h:'去', p:'qù', m:'уходить' },
-    { h:'吃', p:'chī', m:'есть' }, { h:'喝', p:'hē', m:'пить' }, { h:'做', p:'zuò', m:'делать' },
-    { h:'买', p:'mǎi', m:'покупать' }, { h:'水', p:'shuǐ', m:'вода' }, { h:'天', p:'tiān', m:'день' }
+    {h:'好', p:'hǎo', m:'хороший', en:'good; well'}, {h:'人', p:'rén', m:'человек', en:'man; person'},
+    {h:'大', p:'dà', m:'большой', en:'big; large'}, {h:'小', p:'xiǎo', m:'маленький', en:'small; little'},
+    {h:'我', p:'wǒ', m:'я', en:'I; me'}, {h:'你', p:'nǐ', m:'ты', en:'you'},
+    {h:'他', p:'tā', m:'он', en:'he; him'}, {h:'她', p:'tā', m:'она', en:'she; her'},
+    {h:'是', p:'shì', m:'быть', en:'is; are; am'}, {h:'不', p:'bù', m:'не', en:'no; not'},
+    {h:'在', p:'zài', m:'находиться', en:'at; in; on'}, {h:'有', p:'yǒu', m:'иметь', en:'to have'},
+    {h:'这', p:'zhè', m:'этот', en:'this'}, {h:'那', p:'nà', m:'тот', en:'that'},
+    {h:'说', p:'shuō', m:'говорить', en:'to say'}, {h:'看', p:'kàn', m:'смотреть', en:'to see'},
+    {h:'吃', p:'chī', m:'есть', en:'to eat'}, {h:'喝', p:'hē', m:'пить', en:'to drink'},
+    {h:'水', p:'shuǐ', m:'вода', en:'water'}, {h:'天', p:'tiān', m:'день', en:'day'}
   ],
   2: [
-    { h:'白', p:'bái', m:'белый' }, { h:'百', p:'bǎi', m:'сто' }, { h:'帮', p:'bāng', m:'помогать' },
-    { h:'比', p:'bǐ', m:'сравнивать' }, { h:'别', p:'bié', m:'не (запрет)' }, { h:'病', p:'bìng', m:'болезнь' },
-    { h:'茶', p:'chá', m:'чай' }, { h:'唱', p:'chàng', m:'петь' }, { h:'车', p:'chē', m:'машина' },
-    { h:'出', p:'chū', m:'выходить' }, { h:'船', p:'chuán', m:'корабль' }, { h:'床', p:'chuáng', m:'кровать' },
-    { h:'错', p:'cuò', m:'ошибка' }, { h:'打', p:'dǎ', m:'бить' }, { h:'等', p:'děng', m:'ждать' },
-    { h:'懂', p:'dǒng', m:'понимать' }, { h:'读', p:'dú', m:'читать' }, { h:'对', p:'duì', m:'правильный' },
-    { h:'高', p:'gāo', m:'высокий' }, { h:'给', p:'gěi', m:'давать' }, { h:'贵', p:'guì', m:'дорогой' },
-    { h:'过', p:'guò', m:'проходить' }, { h:'还', p:'hái', m:'ещё' }, { h:'黑', p:'hēi', m:'чёрный' },
-    { h:'红', p:'hóng', m:'красный' }, { h:'回', p:'huí', m:'возвращаться' }, { h:'鸡', p:'jī', m:'курица' },
-    { h:'家', p:'jiā', m:'дом' }, { h:'见', p:'jiàn', m:'видеть' }, { h:'叫', p:'jiào', m:'звать' }
+    {h:'白', p:'bái', m:'белый', en:'white'}, {h:'百', p:'bǎi', m:'сто', en:'hundred'},
+    {h:'帮', p:'bāng', m:'помогать', en:'to help'}, {h:'比', p:'bǐ', m:'сравнивать', en:'to compare'},
+    {h:'病', p:'bìng', m:'болезнь', en:'illness'}, {h:'茶', p:'chá', m:'чай', en:'tea'},
+    {h:'车', p:'chē', m:'машина', en:'car'}, {h:'出', p:'chū', m:'выходить', en:'to go out'},
+    {h:'错', p:'cuò', m:'ошибка', en:'wrong'}, {h:'打', p:'dǎ', m:'бить', en:'to hit'},
+    {h:'懂', p:'dǒng', m:'понимать', en:'to understand'}, {h:'读', p:'dú', m:'читать', en:'to read'},
+    {h:'对', p:'duì', m:'правильный', en:'correct'}, {h:'高', p:'gāo', m:'высокий', en:'tall'},
+    {h:'家', p:'jiā', m:'дом', en:'home'}, {h:'见', p:'jiàn', m:'видеть', en:'to see'}
   ],
   3: [
-    { h:'爱', p:'ài', m:'любить' }, { h:'八', p:'bā', m:'восемь' }, { h:'班', p:'bān', m:'класс' },
-    { h:'半', p:'bàn', m:'половина' }, { h:'包', p:'bāo', m:'сумка' }, { h:'饱', p:'bǎo', m:'сытый' },
-    { h:'北', p:'běi', m:'север' }, { h:'边', p:'biān', m:'сторона' }, { h:'变', p:'biàn', m:'меняться' },
-    { h:'步', p:'bù', m:'шаг' }, { h:'才', p:'cái', m:'только' }, { h:'菜', p:'cài', m:'блюдо' },
-    { h:'草', p:'cǎo', m:'трава' }, { h:'层', p:'céng', m:'этаж' }, { h:'差', p:'chà', m:'отличаться' },
-    { h:'长', p:'cháng', m:'длинный' }, { h:'常', p:'cháng', m:'часто' }, { h:'场', p:'chǎng', m:'площадка' },
-    { h:'超', p:'chāo', m:'превышать' }, { h:'成', p:'chéng', m:'становиться' }, { h:'城', p:'chéng', m:'город' },
-    { h:'除', p:'chú', m:'кроме' }, { h:'春', p:'chūn', m:'весна' }, { h:'词', p:'cí', m:'слово' },
-    { h:'次', p:'cì', m:'раз' }, { h:'从', p:'cóng', m:'от' }, { h:'村', p:'cūn', m:'деревня' },
-    { h:'存', p:'cún', m:'хранить' }, { h:'答', p:'dá', m:'отвечать' }, { h:'蛋', p:'dàn', m:'яйцо' }
+    {h:'爱', p:'ài', m:'любить', en:'to love'}, {h:'班', p:'bān', m:'класс', en:'class'},
+    {h:'半', p:'bàn', m:'половина', en:'half'}, {h:'包', p:'bāo', m:'сумка', en:'bag'},
+    {h:'北', p:'běi', m:'север', en:'north'}, {h:'边', p:'biān', m:'сторона', en:'side'},
+    {h:'变', p:'biàn', m:'меняться', en:'to change'}, {h:'步', p:'bù', m:'шаг', en:'step'},
+    {h:'菜', p:'cài', m:'блюдо', en:'dish'}, {h:'草', p:'cǎo', m:'трава', en:'grass'},
+    {h:'城', p:'chéng', m:'город', en:'city'}, {h:'春', p:'chūn', m:'весна', en:'spring'}
   ],
   4: [
-    { h:'按', p:'àn', m:'нажимать' }, { h:'摆', p:'bǎi', m:'расставлять' }, { h:'败', p:'bài', m:'проигрывать' },
-    { h:'伴', p:'bàn', m:'спутник' }, { h:'抱', p:'bào', m:'обнимать' }, { h:'悲', p:'bēi', m:'печальный' },
-    { h:'备', p:'bèi', m:'готовить' }, { h:'倍', p:'bèi', m:'раз (кратный)' }, { h:'被', p:'bèi', m:'пассив' },
-    { h:'笨', p:'bèn', m:'глупый' }, { h:'笔', p:'bǐ', m:'ручка' }, { h:'闭', p:'bì', m:'закрывать' },
-    { h:'标', p:'biāo', m:'метка' }, { h:'表', p:'biǎo', m:'часы' }, { h:'冰', p:'bīng', m:'лёд' },
-    { h:'并', p:'bìng', m:'к тому же' }, { h:'播', p:'bō', m:'вещать' }, { h:'补', p:'bǔ', m:'дополнять' },
-    { h:'布', p:'bù', m:'ткань' }, { h:'部', p:'bù', m:'часть' }, { h:'猜', p:'cāi', m:'угадывать' },
-    { h:'材', p:'cái', m:'материал' }, { h:'踩', p:'cǎi', m:'наступать' }, { h:'参', p:'cān', m:'участвовать' },
-    { h:'测', p:'cè', m:'измерять' }, { h:'查', p:'chá', m:'проверять' }, { h:'拆', p:'chāi', m:'разбирать' },
-    { h:'尝', p:'cháng', m:'пробовать' }, { h:'吵', p:'chǎo', m:'шумный' }, { h:'抄', p:'chāo', m:'переписывать' }
+    {h:'干', p:'gàn', m:'делать', en:'tree trunk; main part of sth; to manage'},
+    {h:'按', p:'àn', m:'нажимать', en:'to press'}, {h:'摆', p:'bǎi', m:'расставлять', en:'to arrange'},
+    {h:'败', p:'bài', m:'проигрывать', en:'to lose'}, {h:'伴', p:'bàn', m:'спутник', en:'companion'},
+    {h:'抱', p:'bào', m:'обнимать', en:'to hug'}, {h:'悲', p:'bēi', m:'печальный', en:'sad'},
+    {h:'备', p:'bèi', m:'готовить', en:'to prepare'}, {h:'笨', p:'bèn', m:'глупый', en:'stupid'},
+    {h:'笔', p:'bǐ', m:'ручка', en:'pen'}, {h:'闭', p:'bì', m:'закрывать', en:'to close'}
   ]
 };
 
-const errorAudio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent('不对') + '&type=2');
-errorAudio.preload = 'auto';
+// --- ОЗВУЧКА (Работает офлайн через голос телефона) ---
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel(); // останавливаем предыдущую
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    u.rate = 0.8; // немного медленнее для учебы
+    speechSynthesis.speak(u);
+  }
+}
 
 function playError() {
-  errorAudio.currentTime = 0;
-  errorAudio.play().catch(() => {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance('不对');
-    u.lang = 'zh-CN'; u.rate = 1.0;
-    speechSynthesis.speak(u);
-  });
+  speak('不对');
 }
 
-function speak(text) {
-  const url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=2';
-  const audio = new Audio(url);
-  audio.play().catch(() => {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN'; u.rate = 0.8;
-    speechSynthesis.speak(u);
-  });
-}
-
+// --- ЛОГИКА ---
+let writer = null;
+let currentLevel = 1;
 let currentBatch = [];
 let currentIndex = 0;
-let writer = null;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -131,85 +185,133 @@ function shuffle(arr) {
   return a;
 }
 
-function setupQuiz(w) {
-  document.getElementById('writer').innerHTML = '';
-  writer = HanziWriter.create('writer', w.h, {
-    width: 280, height: 280, padding: 10,
-    showOutline: true, showCharacter: false,
-    onMistake: () => playError()
-  });
-  writer.quiz({
-    onComplete: () => {
-      document.getElementById('nextBtn').disabled = false;
-      document.getElementById('hintBtn').disabled = true;
-    }
-  });
+// Отрисовка главного экрана
+const levelsList = document.getElementById('levels-list');
+const levelNames = { 1: 'Начальный', 2: 'Базовый', 3: 'Элементарный', 4: 'Средний' };
+[1, 2, 3, 4].forEach(lvl => {
+  const card = document.createElement('div');
+  card.className = 'level-card';
+  card.onclick = () => startLevel(lvl);
+  card.innerHTML = `
+    <div class="level-num">${lvl}</div>
+    <div class="level-info">
+      <div class="level-title">HSK ${lvl} · ${levelNames[lvl]}</div>
+      <div class="level-desc">${WORDS[lvl].length * 5} слов · без ошибок написано 0</div>
+      <div class="progress-bar-bg"></div>
+    </div>
+  `;
+  levelsList.appendChild(card);
+});
+
+function startLevel(lvl) {
+  currentLevel = lvl;
+  currentBatch = shuffle(WORDS[lvl]).slice(0, 10);
+  currentIndex = 0;
+  
+  document.getElementById('start-screen').classList.remove('active');
+  document.getElementById('practice-screen').classList.add('active');
+  renderWord();
 }
 
-function showHint(w) {
-  document.getElementById('writer').innerHTML = '';
-  const hintWriter = HanziWriter.create('writer', w.h, {
-    width: 280, height: 280, padding: 10, showOutline: false
-  });
-  hintWriter.animateCharacter({ onComplete: () => setupQuiz(w) });
+function goBack() {
+  document.getElementById('practice-screen').classList.remove('active');
+  document.getElementById('start-screen').classList.add('active');
+  if(writer) writer.cancelQuiz();
 }
 
 function renderWord() {
   if (currentIndex >= currentBatch.length) {
-    document.getElementById('progress').textContent = 'Готово! 🎉';
-    document.getElementById('pinyin').textContent = '';
-    document.getElementById('meaning').textContent = 'Все 10 слов прописаны';
-    document.getElementById('writer').innerHTML = '';
-    document.getElementById('nextBtn').disabled = true;
-    document.getElementById('hintBtn').disabled = true;
-    document.getElementById('speakBtn').disabled = true;
+    document.getElementById('progress-text').textContent = 'Готово! 🎉';
+    document.getElementById('writer-container').innerHTML = '<div style="font-size:20px; padding: 40px 0;">Все 10 слов прописаны!</div>';
+    document.getElementById('btn-next').classList.remove('active');
     return;
   }
+  
   const w = currentBatch[currentIndex];
-  document.getElementById('progress').textContent = 'Слово ' + (currentIndex + 1) + ' из ' + currentBatch.length;
-  document.getElementById('pinyin').textContent = w.p;
-  document.getElementById('meaning').textContent = w.m;
-  document.getElementById('nextBtn').disabled = true;
-  document.getElementById('hintBtn').disabled = false;
-  document.getElementById('speakBtn').disabled = false;
-  setupQuiz(w);
+  document.getElementById('progress-text').textContent = `Слово ${currentIndex + 1} из 10 · HSK ${currentLevel}`;
+  document.getElementById('progress-fill').style.width = `${((currentIndex) / 10) * 100}%`;
+  
+  document.getElementById('word-ru').textContent = w.m;
+  document.getElementById('word-py').textContent = w.p;
+  document.getElementById('word-en').textContent = w.en || '';
+  
+  document.getElementById('btn-next').classList.remove('active');
+  
+  // Автоматическая озвучка при показе нового слова
   speak(w.h);
+  
+  setupWriter(w.h);
 }
 
-function startLevel(level) {
-  currentBatch = shuffle(WORDS[level]).slice(0, 10);
-  currentIndex = 0;
-  document.getElementById('card').style.display = 'block';
-  renderWord();
+function setupWriter(char) {
+  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
+  
+  writer = HanziWriter.create('writer-target', char, {
+    width: 260,
+    height: 260,
+    padding: 5,
+    showOutline: true,
+    showCharacter: false,
+    strokeColor: '#b33a2e',
+    outlineColor: '#e8e0d1',
+    drawingColor: '#b33a2e',
+    highlightColor: '#d8a5a0',
+    onMistake: function() {
+      playError();
+    }
+  });
+  
+  startQuiz();
 }
 
-const levelsEl = document.getElementById('levels');
-[1, 2, 3, 4].forEach(lvl => {
-  const btn = document.createElement('button');
-  btn.className = 'level-btn';
-  btn.textContent = 'HSK ' + lvl;
-  btn.onclick = () => {
-    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    startLevel(lvl);
-  };
-  levelsEl.appendChild(btn);
-});
+function startQuiz() {
+  writer.quiz({
+    onComplete: function() {
+      document.getElementById('btn-next').classList.add('active');
+    }
+  });
+}
 
-document.getElementById('hintBtn').addEventListener('click', () => {
-  const w = currentBatch[currentIndex];
-  if (w) showHint(w);
-});
+function showHint() {
+  if(!writer) return;
+  const char = currentBatch[currentIndex].h;
+  document.getElementById('writer-container').innerHTML = '<div id="writer-target"></div>';
+  const tempWriter = HanziWriter.create('writer-target', char, {
+    width: 260, height: 260, padding: 5, showOutline: true, showCharacter: false,
+    strokeColor: '#b33a2e', outlineColor: '#e8e0d1'
+  });
+  tempWriter.animateCharacter({
+    onComplete: function() {
+      setupWriter(char);
+    }
+  });
+}
 
-document.getElementById('speakBtn').addEventListener('click', () => {
-  const w = currentBatch[currentIndex];
-  if (w) speak(w.h);
-});
+function playOrder() {
+  if(!writer) return;
+  writer.cancelQuiz();
+  writer.animateCharacter({
+    onComplete: function() {
+      setupWriter(currentBatch[currentIndex].h);
+    }
+  });
+}
 
-document.getElementById('nextBtn').addEventListener('click', () => {
+function resetWriter() {
+  if(!writer) return;
+  setupWriter(currentBatch[currentIndex].h);
+}
+
+function speakCurrentWord() {
+  if(currentBatch[currentIndex]) {
+    speak(currentBatch[currentIndex].h);
+  }
+}
+
+function nextWord() {
   currentIndex++;
   renderWord();
-});
+}
 </script>
 </body>
-</html
+</html>
