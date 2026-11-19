@@ -329,6 +329,11 @@ window.__hsk={get cells(){return cells}};
     if (match) window.playHskText(match.at(0));
   });
 </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
 
 </body>
 </html>
